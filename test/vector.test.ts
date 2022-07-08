@@ -1,0 +1,64 @@
+import { assert, describe, expect, test } from 'vitest'
+import { Vector } from '../src/vector';
+
+describe("Vector", () => {
+
+  test("A vector holds x y z coordinates", () => {
+    const vector = new Vector(4.3, -4.2, 3.1);
+    assert.equal(vector.x, 4.3);
+    assert.equal(vector.y, -4.2);
+    assert.equal(vector.z, 3.1);
+  });
+
+  test("Adding two vectors", () => {
+    const vector1 = new Vector(3, -2, 5);
+    const vector2 = new Vector(-2, 3, 1);
+    assert.deepEqual(vector1.add(vector2), new Vector(1, 1, 6));
+  });
+
+  test("Substracting two vectors", () => {
+    const vector1 = new Vector(3, 2, 1);
+    const vector2 = new Vector(5, 6, 7);
+    assert.deepEqual(vector1.subtract(vector2), new Vector(-2, -4, -6));
+  });
+
+  test("Multiplying a vector by a scalar", () => {
+    const vector = new Vector(1, -2, 3);
+    assert.deepEqual(vector.multiplyBy(3.5), new Vector(3.5, -7, 10.5));
+  });
+
+  test("Dividing a vector by a scalar", () => {
+    const vector = new Vector(1, -2, 3);
+    assert.deepEqual(vector.dividedBy(2), new Vector(0.5, -1, 1.5));
+    assert.throws(() => vector.dividedBy(0));
+  });
+
+  test("Computing the length of a vector", () => {
+    let vector = new Vector(1, 0, 0);
+    assert.equal(vector.length(), 1);
+
+    vector = new Vector(0, 1, 0);
+    assert.equal(vector.length(), 1);
+
+    vector = new Vector(0, 0, 1);
+    assert.equal(vector.length(), 1);
+
+    vector = new Vector(1, 2, 3);
+    assert.equal(vector.length(), Math.sqrt(14));
+
+    vector = new Vector(-1, -2, -3);
+    assert.equal(vector.length(), Math.sqrt(14));
+  });
+
+  test("The dot product of two vectors", () => {
+    const vector1 = new Vector(1, 2, 3);
+    const vector2 = new Vector(2, 3, 4);
+    assert.equal(Vector.dot(vector1, vector2), 20);
+  });
+
+  test("Unit vector", () => {
+    const vector = new Vector(1, 2, 3);
+    assert.deepEqual(vector.unitVector(), new Vector(1 / Math.sqrt(14), 2 / Math.sqrt(14), 3 / Math.sqrt(14)));
+  });
+
+});
