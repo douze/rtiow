@@ -1,18 +1,17 @@
 import './style.css'
-import { Canvas } from './canvas';
+import { Image } from './image';
 
 class App {
 
   constructor() {
-    const canvas: Canvas = new Canvas(document.querySelector<HTMLCanvasElement>('#renderCanvas')!);
-    canvas.createSynchronously((x: number, y: number, width: number, height: number) => {
-      const red = x / width * 255;
-      const green = y / height * 255;
-      const blue = 0.2 * 255;
-      const alpha = 255;
+    const image: Image = new Image(document.querySelector<HTMLCanvasElement>('#renderCanvas')!);
+    image.createSynchronously((x: number, y: number, width: number, height: number) => {
+      const red = x / width;
+      const green = y / height;
+      const blue = 0.2;
+      const alpha = 1.0;
       return [red, green, blue, alpha];
     });
-    canvas.reverseYAxis();
   }
 
 }
