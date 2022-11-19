@@ -10,6 +10,19 @@ describe("Vector", () => {
     assert.equal(vector.z, 3.1);
   });
 
+  test("Vector is iterable", () => {
+    const vector = new Vector(1, 2, 3);
+    const arrayFromIterable = new Array<number>();
+    assert.isFunction(vector[Symbol.iterator]);
+
+    for (const n of vector) {
+      arrayFromIterable.push(n);
+    }
+    assert.equal(vector.x, arrayFromIterable[0]);
+    assert.equal(vector.y, arrayFromIterable[1]);
+    assert.equal(vector.z, arrayFromIterable[2]);
+  });
+
   test("Adding two vectors", () => {
     const vector1 = new Vector(3, -2, 5);
     const vector2 = new Vector(-2, 3, 1);

@@ -2,6 +2,12 @@ export class Vector {
 
   constructor(public x: number, public y: number, public z: number) { }
 
+  *[Symbol.iterator](): IterableIterator<number> {
+    yield this.x;
+    yield this.y;
+    yield this.z;
+  }
+
   public add(other: Vector): Vector {
     return new Vector(this.x + other.x, this.y + other.y, this.z + other.z);
   }
