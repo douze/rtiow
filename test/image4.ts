@@ -42,14 +42,14 @@ class Image4 {
 
   private isSphereHit(center: Vector, radius: number, ray: Ray): number {
     const oc = ray.origin.subtract(center);
-    const a = Vector.dot(ray.direction, ray.direction);
-    const b = 2.0 * Vector.dot(oc, ray.direction);
-    const c = Vector.dot(oc, oc) - radius * radius;
-    const discriminant = b * b - 4 * a * c;
+    const a = ray.direction.lengthSquared();
+    const halfB = Vector.dot(oc, ray.direction);
+    const c = oc.lengthSquared() - radius * radius;
+    const discriminant = halfB * halfB - a * c;
     if (discriminant < 0) {
       return -1.0;
     } else {
-      return (-b - Math.sqrt(discriminant)) / (2.0 * a);
+      return (-halfB - Math.sqrt(discriminant)) / a;
     }
   }
 

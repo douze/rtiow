@@ -26,7 +26,7 @@ export class Vector {
   }
 
   public length(): number {
-    return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+    return Math.sqrt(this.lengthSquared());
   }
 
   public static dot(current: Vector, other: Vector): number {
@@ -35,6 +35,10 @@ export class Vector {
 
   public unitVector(): Vector {
     return this.dividedBy(this.length());
+  }
+
+  public lengthSquared(): number {
+    return this.x * this.x + this.y * this.y + this.z * this.z;
   }
 
 }

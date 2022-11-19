@@ -74,4 +74,9 @@ describe("Vector", () => {
     assert.deepEqual(vector.unitVector(), new Vector(1 / Math.sqrt(14), 2 / Math.sqrt(14), 3 / Math.sqrt(14)));
   });
 
+  test("Length squared", () => {
+    const vector = new Vector(1, 2, 3);
+    assert.equal(vector.lengthSquared(), 14);
+  });
+
 });
