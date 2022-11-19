@@ -1,7 +1,7 @@
-import './style.css'
-import { Canvas } from './canvas';
+import '/src/style.css'
+import { Canvas } from '../src/canvas';
 
-class App {
+class Image1 {
 
   constructor() {
     const canvas: Canvas = new Canvas(document.querySelector<HTMLCanvasElement>('#renderCanvas')!);
@@ -9,11 +9,12 @@ class App {
       const red = x / width * 255;
       const green = y / height * 255;
       const blue = 0.2 * 255;
-      const alpha = 255;
+      const alpha = 124;
       return [red, green, blue, alpha];
     });
     canvas.reverseYAxis();
   }
 
 }
-new App();
+
+new Image1();
