@@ -79,4 +79,9 @@ describe("Vector", () => {
     assert.equal(vector.lengthSquared(), 14);
   });
 
+  test("Negate a vector", () => {
+    const vector = new Vector(1, 2, 3);
+    assert.deepEqual(vector.negate(), new Vector(-1, -2, -3));
+  });
+
 });
