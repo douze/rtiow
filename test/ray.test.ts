@@ -5,13 +5,11 @@ import { Ray } from '../src/ray';
 describe("Ray", () => {
 
   test("A ray holds an origin and a direction", () => {
-    test("Creating and querying a ray", () => {
-      const origin = new Vector(1, 2, 3);
-      const direction = new Vector(4, 5, 6);
-      const ray = new Ray(origin, direction);
-      assert.deepEqual(ray.origin, origin);
-      assert.deepEqual(ray.direction, direction);
-    });
+    const origin = new Vector(1, 2, 3);
+    const direction = new Vector(4, 5, 6);
+    const ray = new Ray(origin, direction);
+    assert.deepEqual(ray.origin, origin);
+    assert.deepEqual(ray.direction, direction);
   });
 
   test("Computing a point from a distance", () => {

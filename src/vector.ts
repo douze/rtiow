@@ -1,3 +1,5 @@
+import { random } from "./math";
+
 export class Vector {
 
   constructor(public x: number, public y: number, public z: number) { }
@@ -43,6 +45,22 @@ export class Vector {
 
   public negate(): Vector {
     return new Vector(-this.x, -this.y, -this.z);
+  }
+
+  public static random(min: number = 0, max: number = 1): Vector {
+    return new Vector(random(min, max), random(min, max), random(min, max));
+  }
+
+  public static randomInUnitSphere(): Vector {
+    while (true) {
+      const point = Vector.random(-1, 1);
+      if (point.lengthSquared() >= 1) continue;
+      return point;
+    }
+  }
+
+  public static randomUnitInUnitSphere(): Vector {
+    return this.randomInUnitSphere().unitVector();
   }
 
 }

@@ -84,4 +84,26 @@ describe("Vector", () => {
     assert.deepEqual(vector.negate(), new Vector(-1, -2, -3));
   });
 
+  test("Random vector", () => {
+    let vector = Vector.random();
+    assert.isAtLeast(vector.x, 0);
+    assert.isAtLeast(vector.y, 0);
+    assert.isAtLeast(vector.z, 0);
+    assert.isBelow(vector.x, 1);
+    assert.isBelow(vector.y, 1);
+    assert.isBelow(vector.z, 1);
+
+    vector = Vector.random(10, 12);
+    assert.isAtLeast(vector.x, 10);
+    assert.isAtLeast(vector.y, 10);
+    assert.isAtLeast(vector.z, 10);
+    assert.isBelow(vector.x, 12);
+    assert.isBelow(vector.y, 12);
+    assert.isBelow(vector.z, 12);
+
+    vector = Vector.randomInUnitSphere();
+    assert.isBelow(vector.lengthSquared(), 1);
+  });
+
+
 });

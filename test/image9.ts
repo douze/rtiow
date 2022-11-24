@@ -23,16 +23,17 @@ class Image5 {
 
     const camera = new Camera(aspectRatio);
     const samplesPerPixel = 10;
+    const maxDepth = 10;
 
     image.createSynchronously((x: number, y: number, width: number, height: number) => {
       let color = new Vector(0.0, 0.0, 0.0);
       for (let s = 0; s < samplesPerPixel; s++) {
         const u = (x + Math.random()) / (width - 1);
         const v = (y + Math.random()) / (height - 1);
-        color = color.add(this.computeRayColor(camera.getRay(u, v), world));
+        color = color.add(this.computeRayColor(camera.getRay(u, v), world, maxDepth));
       }
       return [...color, 1.0];
-    }, samplesPerPixel);
+    }, samplesPerPixel, true);
   }
 
   private setupCanvasSize(domCanvas: HTMLCanvasElement, aspectRatio: number): void {
@@ -42,10 +43,15 @@ class Image5 {
     domCanvas.height = height;
   }
 
-  private computeRayColor(ray: Ray, world: HittableList): Vector {
-    const record: HitRecord = world.hit(ray, 0, 1000);
+  private computeRayColor(ray: Ray, world: HittableList, depth: number): Vector {
+    if (depth <= 0) {
+      return new Vector(0.0, 0.0, 0.0);
+    }
+
+    const record: HitRecord = world.hit(ray, 0.001, 1000);
     if (record.hasHit) {
-      return record.normal!.add(new Vector(1, 1, 1)).multiplyBy(0.5);
+      const target = record.point!.add(record.normal!).add(Vector.randomUnitInUnitSphere());
+      return this.computeRayColor(new Ray(record.point!, target.subtract(record.point!)), world, depth - 1).multiplyBy(0.5);
     }
 
     const unitDirection = ray.direction.unitVector();
