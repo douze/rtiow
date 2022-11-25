@@ -18,8 +18,14 @@ export class Vector {
     return new Vector(this.x - other.x, this.y - other.y, this.z - other.z);
   }
 
-  public multiplyBy(n: number): Vector {
-    return new Vector(this.x * n, this.y * n, this.z * n);
+  public multiplyBy(n: number): Vector;
+  public multiplyBy(other: Vector): Vector;
+  public multiplyBy(scalarOrVector: number | Vector): Vector {
+    if (typeof scalarOrVector === 'number') {
+      return new Vector(this.x * scalarOrVector, this.y * scalarOrVector, this.z * scalarOrVector);
+    } else {
+      return new Vector(this.x * scalarOrVector.x, this.y * scalarOrVector.y, this.z * scalarOrVector.z);
+    }
   }
 
   public dividedBy(n: number): Vector {
@@ -61,6 +67,15 @@ export class Vector {
 
   public static randomUnitInUnitSphere(): Vector {
     return this.randomInUnitSphere().unitVector();
+  }
+
+  public isNearZero(): boolean {
+    const epsilon = 1e-8;
+    return Math.abs(this.x) < epsilon && Math.abs(this.y) < epsilon && Math.abs(this.z) < epsilon;
+  }
+
+  public reflect(normal: Vector): Vector {
+    return this.subtract(normal.multiplyBy(2 * Vector.dot(this, normal)));
   }
 
 }

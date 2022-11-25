@@ -84,7 +84,7 @@ describe("Vector", () => {
     assert.deepEqual(vector.negate(), new Vector(-1, -2, -3));
   });
 
-  test("Random vector", () => {
+  test("Generate a random vector", () => {
     let vector = Vector.random();
     assert.isAtLeast(vector.x, 0);
     assert.isAtLeast(vector.y, 0);
@@ -105,5 +105,17 @@ describe("Vector", () => {
     assert.isBelow(vector.lengthSquared(), 1);
   });
 
+  test("Check if the vector is near zero", () => {
+    let vector = new Vector(0.000000001, 0.000000001, 0.000000001);
+    assert.isTrue(vector.isNearZero());
+    vector = new Vector(0.00000001, 0.00000001, 0.00000001);
+    assert.isFalse(vector.isNearZero());
+  });
+
+  test("Reflect vector along normal", () => {
+    const vector = new Vector(1, 2, 3);
+    const normal = new Vector(0, 1, 0);
+    assert.deepEqual(vector.reflect(normal), new Vector(1, -2, 3));
+  });
 
 });
