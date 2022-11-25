@@ -92,4 +92,12 @@ export class Vector {
       current.x * other.y - current.y * other.x);
   }
 
+  public static randomInUnitDisk(): Vector {
+    while (true) {
+      const point = new Vector(random(-1, 1), random(-1, 1), 0);
+      if (point.lengthSquared() >= 1) continue;
+      return point;
+    }
+  }
+
 }
