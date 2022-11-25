@@ -78,4 +78,11 @@ export class Vector {
     return this.subtract(normal.multiplyBy(2 * Vector.dot(this, normal)));
   }
 
+  public refract(normal: Vector, etaiOverEtat: number): Vector {
+    const cosTheta = Math.min(Vector.dot(this.negate(), normal), 1.0);
+    const rayOutPerpendicular = this.add(normal.multiplyBy(cosTheta)).multiplyBy(etaiOverEtat);
+    const rayOutParallel = normal.multiplyBy(-Math.sqrt(Math.abs(1.0 - rayOutPerpendicular.lengthSquared())));
+    return rayOutPerpendicular.add(rayOutParallel);
+  }
+
 }

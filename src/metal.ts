@@ -8,7 +8,6 @@ export class Metal extends Material {
   constructor(public albedo: Vector, public fuzz: number) {
     super();
     this.fuzz = fuzz < 1 ? fuzz : 1;
-    console.log(this.fuzz)
   }
 
   public scatter(rayIn: Ray, record: HitRecord): Scattering {
