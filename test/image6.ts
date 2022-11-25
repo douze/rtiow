@@ -7,7 +7,7 @@ import { HitRecord } from '../src/hittable';
 import { HittableList } from '../src/hittable-list';
 import { Camera } from '../src/camera';
 
-class Image5 {
+class Image6 {
 
   constructor() {
     const aspectRatio = 16.0 / 9.0;
@@ -55,4 +55,4 @@ class Image5 {
 
 }
 
-new Image5();
+new Image6();

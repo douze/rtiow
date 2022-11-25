@@ -10,7 +10,7 @@ import { Lambertian } from '../src/lambertian';
 import { Metal } from '../src/metal';
 
 
-class Image5 {
+class Image12 {
 
   constructor() {
     const aspectRatio = 16.0 / 9.0;
@@ -69,4 +69,4 @@ class Image5 {
 
 }
 
-new Image5();
+new Image12();
