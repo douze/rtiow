@@ -1,5 +1,5 @@
 import { assert, describe, test } from 'vitest';
-import { clamp, random } from '../src/math';
+import { clamp, degreesToRadians, random } from '../src/math';
 
 describe("Math", () => {
 
@@ -22,6 +22,12 @@ describe("Math", () => {
     const value = random(min, max);
     assert.isAbove(value, min);
     assert.isBelow(value, max);
+  });
+
+  test("Degrees to radian", () => {
+    assert.equal(degreesToRadians(0), 0);
+    assert.equal(degreesToRadians(90), Math.PI / 2.0);
+    assert.equal(degreesToRadians(180), Math.PI);
   });
 
 });

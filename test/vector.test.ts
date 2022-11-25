@@ -118,4 +118,11 @@ describe("Vector", () => {
     assert.deepEqual(vector.reflect(normal), new Vector(1, -2, 3));
   });
 
+  test("The cross product of two vectors", () => {
+    const vector1 = new Vector(1, 2, 3);
+    const vector2 = new Vector(2, 3, 4);
+    assert.deepEqual(Vector.cross(vector1, vector2), new Vector(-1, 2, -1));
+    assert.deepEqual(Vector.cross(vector2, vector1), new Vector(1, -2, 1));
+  });
+
 });

@@ -85,4 +85,11 @@ export class Vector {
     return rayOutPerpendicular.add(rayOutParallel);
   }
 
+  public static cross(current: Vector, other: Vector): Vector {
+    return new Vector(
+      current.y * other.z - current.z * other.y,
+      current.z * other.x - current.x * other.z,
+      current.x * other.y - current.y * other.x);
+  }
+
 }
