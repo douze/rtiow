@@ -1,6 +1,6 @@
-import { degreesToRadians } from "./math";
-import { Ray } from "./ray";
-import { Vector } from "./vector";
+import { degreesToRadians } from './math';
+import { Ray } from './ray';
+import { Vector } from './vector';
 
 export class Camera {
 
@@ -37,4 +37,18 @@ export class Camera {
     return new Ray(this.origin.add(offset), this.lowerLeftCorner.add(this.horizontal.multiplyBy(s)).add(this.vertical.multiplyBy(t)).subtract(this.origin).subtract(offset));
   }
 
+  public static from(cameraSettings: CameraSettings): Camera {
+    return new Camera(cameraSettings.aspectRatio, cameraSettings.verticalFieldOfView, Vector.from(cameraSettings.lookFrom), Vector.from(cameraSettings.lookAt), Vector.from(cameraSettings.upVector), cameraSettings.aperture, cameraSettings.focusDistance);
+  }
+
+}
+
+export interface CameraSettings {
+  aspectRatio: number;
+  verticalFieldOfView: number;
+  lookFrom: Vector;
+  lookAt: Vector;
+  upVector: Vector;
+  aperture: number;
+  focusDistance: number;
 }

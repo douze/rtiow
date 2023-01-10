@@ -1,6 +1,6 @@
-import { HitRecord, Hittable, noHit } from './hittable';
+import { HitRecord, Hittable, HittableSettings, noHit } from './hittable';
+import { Loader } from './loader';
 import { Ray } from './ray';
-import { Vector } from './vector';
 
 export class HittableList extends Hittable {
 
@@ -29,4 +29,14 @@ export class HittableList extends Hittable {
     return finalRecord;
   }
 
+  public static from(hittableListSettings: HittableListSettings): HittableList {
+    const hittableList: HittableList = new HittableList();
+    hittableListSettings.objects.forEach(object => hittableList.add(Loader.loadHittable(object)!));
+    return hittableList;
+  }
+
+}
+
+export interface HittableListSettings {
+  objects: Array<HittableSettings>;
 }

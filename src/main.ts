@@ -1,51 +1,72 @@
 import '/src/style.css'
-import { Image } from '../src/image';
+import { Image, RenderSettings } from '../src/image';
 import { Vector } from '../src/vector';
-import { Ray } from '../src/ray';
-import { Sphere } from '../src/sphere';
-import { HitRecord } from '../src/hittable';
 import { HittableList } from '../src/hittable-list';
-import { Camera } from '../src/camera';
-import { Lambertian } from '../src/lambertian';
+import { CameraSettings } from '../src/camera';
 import { Metal } from '../src/metal';
+
+import { Lambertian } from '../src/lambertian';
 import { Dielectric } from '../src/dielectric';
+import { Sphere } from '../src/sphere';
+
+import { Gui } from '../src/gui';
+
 import { random } from './math';
+import { WorkerQueue, WorkerQueueSettings } from './worker-queue';
 
 class App {
 
   constructor() {
     const aspectRatio = 3.0 / 2.0;
 
+    const workerQueueSettings: WorkerQueueSettings = {
+      queueSize: 4,
+      workerScript: './render-webworker.ts',
+      workerSize: 100
+    };
+
+    const gui = new Gui(workerQueueSettings.queueSize);
+
     const canvas = document.querySelector<HTMLCanvasElement>('#renderCanvas')!;
-    this.setupCanvasSize(canvas, aspectRatio);
+    gui.onCanvasSizeChange = (size: number) => this.setupCanvasSize(canvas, size, aspectRatio);
+    gui.onSingleWorkerSizeChange = (size: number) => workerQueueSettings.workerSize = size;
+    gui.onWorkersNumberChange = (size: number) => workerQueueSettings.queueSize = size;
 
-    const image: Image = new Image(canvas);
+    gui.onCanvasSizeChange(300);
 
-    const world = this.createRandomScene();
+    let world = this.createRandomScene();
+    world = new HittableList();
+    world.add(new Sphere(new Vector(0, 0, -1), 0.5, new Lambertian(new Vector(0, 1, 0))));
+    world.add(new Sphere(new Vector(0, -100.5, -1), 100));
 
-    const lookFrom = new Vector(13, 2, 3);
-    const lookAt = new Vector(0, 0, 0);
-    const upVector = new Vector(0, 1, 0);
-    const distanceToFocus = 10.0;
-    const aperture = 0.1;
-    const camera = new Camera(aspectRatio, 20.0, lookFrom, lookAt, upVector, aperture, distanceToFocus);
-    const samplesPerPixel = 10;
-    const maxDepth = 10;
+    world = this.createRandomScene();
 
-    image.createSynchronously((x: number, y: number, width: number, height: number) => {
-      let color = new Vector(0.0, 0.0, 0.0);
-      for (let s = 0; s < samplesPerPixel; s++) {
-        const u = (x + Math.random()) / (width - 1);
-        const v = (y + Math.random()) / (height - 1);
-        color = color.add(this.computeRayColor(camera.getRay(u, v), world, maxDepth));
-      }
-      return [...color, 1.0];
-    }, samplesPerPixel, true);
+    const cameraSettings: CameraSettings = {
+      aspectRatio,
+      verticalFieldOfView: 20.0,
+      lookFrom: new Vector(13, 2, 3),
+      lookAt: new Vector(0, 0, 0),
+      upVector: new Vector(0, 1, 0),
+      aperture: 0.1,
+      focusDistance: 10.0
+    };
+
+    const renderSettings: RenderSettings = {
+      samplesPerPixel: 5,
+      maxDepth: 3
+    }
+
+    gui.onRender = () => {
+      const image: Image = new Image(canvas);
+      const workerQueue = new WorkerQueue(workerQueueSettings);
+      workerQueue.onChange = gui.changed.bind(gui); // bah
+      image.createAsynchronously(world, workerQueue, cameraSettings, renderSettings);
+    }
   }
 
-  private setupCanvasSize(domCanvas: HTMLCanvasElement, aspectRatio: number): void {
-    const width = 400;
+  private setupCanvasSize(domCanvas: HTMLCanvasElement, width: number, aspectRatio: number): void {
     const height = width / aspectRatio;
+    console.log(`image = ${width} * ${height}`);
     domCanvas.width = width;
     domCanvas.height = height;
   }
@@ -86,25 +107,6 @@ class App {
     world.add(new Sphere(new Vector(4, 1, 0), 1.0, new Metal(new Vector(0.7, 0.6, 0.5), 0.0)));
 
     return world;
-  }
-
-  private computeRayColor(ray: Ray, world: HittableList, depth: number): Vector {
-    if (depth <= 0) {
-      return new Vector(0.0, 0.0, 0.0);
-    }
-
-    const record: HitRecord = world.hit(ray, 0.001, 1000);
-    if (record.hasHit) {
-      const scattering = record.material!.scatter(ray, record);
-      if (scattering.hasScattered) {
-        return this.computeRayColor(scattering.rayScattered!, world, depth - 1).multiplyBy(scattering.attenuation!);
-      }
-      return new Vector(0.0, 0.0, 0.0);
-    }
-
-    const unitDirection = ray.direction.unitVector();
-    const t = 0.5 * (unitDirection.y + 1.0);
-    return new Vector(1.0, 1.0, 1.0).multiplyBy(1.0 - t).add(new Vector(0.5, 0.7, 1.0).multiplyBy(t));
   }
 
 }

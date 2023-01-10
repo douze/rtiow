@@ -1,5 +1,5 @@
 import { HitRecord } from './hittable';
-import { Material, Scattering } from './material';
+import { Material, MaterialSettings, Scattering } from './material';
 import { Ray } from './ray';
 import { Vector } from './vector';
 
@@ -17,4 +17,12 @@ export class Lambertian extends Material {
     return this.createScattering(new Ray(record.point!, scatterDirection), this.albedo);
   }
 
+  public static from(lambertianSettings: LambertianSettings): Material {
+    return new Lambertian(Vector.from(lambertianSettings.albedo));
+  }
+
+}
+
+export interface LambertianSettings extends MaterialSettings {
+  albedo: Vector;
 }

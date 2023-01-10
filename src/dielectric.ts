@@ -1,5 +1,5 @@
 import { HitRecord } from './hittable';
-import { Material, Scattering } from './material';
+import { Material, MaterialSettings, Scattering } from './material';
 import { Ray } from './ray';
 import { Vector } from './vector';
 
@@ -27,4 +27,12 @@ export class Dielectric extends Material {
     return r0 + (1 - r0) * Math.pow((1 - cosine), 5);
   }
 
+  public static from(dielectricSettings: DielectricSettings): Dielectric {
+    return new Dielectric(dielectricSettings.refractionIndex);
+  }
+
+}
+
+export interface DielectricSettings extends MaterialSettings {
+  refractionIndex: number;
 }

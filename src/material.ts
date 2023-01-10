@@ -4,6 +4,12 @@ import { Vector } from './vector';
 
 export abstract class Material {
 
+  protected className: string = "";
+
+  constructor() {
+    this.className = this.constructor.name;
+  }
+
   public abstract scatter(rayIn: Ray, record: HitRecord): Scattering;
 
   public createScattering(rayScattered: Ray, attenuation: Vector): Scattering {
@@ -23,3 +29,7 @@ export interface Scattering {
 }
 
 export const noScattering: Scattering = { hasScattered: false };
+
+export interface MaterialSettings {
+  className: string;
+}

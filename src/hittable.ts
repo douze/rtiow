@@ -4,6 +4,12 @@ import { Vector } from './vector';
 
 export abstract class Hittable {
 
+  protected className: string = "";
+
+  constructor() {
+    this.className = this.constructor.name;
+  }
+
   public abstract hit(ray: Ray, tMin: number, tMax: number): HitRecord;
 
   public createHit(ray: Ray, point: Vector, outwardNormal: Vector, t: number, material: Material) {
@@ -30,3 +36,7 @@ export interface HitRecord {
 }
 
 export const noHit: HitRecord = { hasHit: false };
+
+export interface HittableSettings {
+  className: string;
+}

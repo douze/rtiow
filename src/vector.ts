@@ -1,8 +1,8 @@
-import { random } from "./math";
+import { random } from './math';
 
 export class Vector {
 
-  constructor(public x: number, public y: number, public z: number) { }
+  constructor(public x: number, public y: number, public z: number = 0) { }
 
   *[Symbol.iterator](): IterableIterator<number> {
     yield this.x;
@@ -100,4 +100,14 @@ export class Vector {
     }
   }
 
+  public static from(vectorSettings: VectorSettings) {
+    return new Vector(vectorSettings.x, vectorSettings.y, vectorSettings.z);
+  }
+
+}
+
+export interface VectorSettings {
+  x: number,
+  y: number,
+  z: number
 }

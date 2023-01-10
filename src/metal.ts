@@ -1,5 +1,5 @@
 import { HitRecord } from './hittable';
-import { Material, noScattering, Scattering } from './material';
+import { Material, MaterialSettings, noScattering, Scattering } from './material';
 import { Ray } from './ray';
 import { Vector } from './vector';
 
@@ -20,4 +20,13 @@ export class Metal extends Material {
     }
   }
 
+  public static from(metalSettings: MetalSettings): Material {
+    return new Metal(Vector.from(metalSettings.albedo), metalSettings.fuzz);
+  }
+  
+}
+
+export interface MetalSettings extends MaterialSettings {
+  albedo: Vector;
+  fuzz: number;
 }
