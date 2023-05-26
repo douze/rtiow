@@ -1,3 +1,22 @@
 #renderCanvas {
   border: 1px solid;
+  background-image:
+    repeating-linear-gradient(#ccc 0 1px, transparent 1px 100%),
+    repeating-linear-gradient(90deg, #ccc 0 1px, transparent 1px 100%);
+  background-size: 100px 100px;
+}
+
+body {
+  text-align: center;
+}
+
+table {
+  margin: auto;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px black solid;
+  padding: 0.25em 0.5em;
 }
