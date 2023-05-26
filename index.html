@@ -9,16 +9,18 @@
 </head>
 
 <body>
-  <div id="guiDiv" vertical layout>
-    Size of canvas : <input type="range" id="sizeOfCanvasSlider" min="150" max="800" value="300"><br />
-    Number of workers : <input type="range" id="numberOfWorkersSlider" min="1" max="4" value="4"><br />
-    Size of single worker: <input type="range" id="sizeOfSingleWorkerSlider" min="10" max="200" value="100"><br />
-    <table id="workersTable">
-
-    </table>
+  <div id="guiDiv">
+    <div>Size of canvas : <input type="range" id="sizeOfCanvasSlider" min="150" max="800" value="300"></div>
+    <div>Number of workers : <input type="range" id="numberOfWorkersSlider" min="1" max="4" value="4"></div>
+    <div>Size of single worker: <input type="range" id="sizeOfSingleWorkerSlider" min="10" max="200" value="100"></div>
+    <div>Sample per pixels: <input type="range" id="samplesPerPixelSlider" min="5" max="50" value="5"></div>
+    <div>Max depth: <input type="range" id="maxDepthSlider" min="3" max="30" value="3"></div>
+    <div>
+      <table id="workersTable"></table>
+    </div>
     <input type="button" id="renderButton" value="Render">
+    <canvas id="renderCanvas" width="300px"></canvas>
   </div>
-  <canvas id="renderCanvas" width="300px"></canvas>
   <script type="module" src="/src/main.ts"></script>
 </body>
 

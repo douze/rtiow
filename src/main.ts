@@ -25,12 +25,19 @@ class App {
       workerSize: 100
     };
 
+    const renderSettings: RenderSettings = {
+      samplesPerPixel: 5,
+      maxDepth: 3
+    }
+
     const gui = new Gui(workerQueueSettings.queueSize);
 
     const canvas = document.querySelector<HTMLCanvasElement>('#renderCanvas')!;
     gui.onCanvasSizeChange = (size: number) => this.setupCanvasSize(canvas, size, aspectRatio);
     gui.onSingleWorkerSizeChange = (size: number) => workerQueueSettings.workerSize = size;
     gui.onWorkersNumberChange = (size: number) => workerQueueSettings.queueSize = size;
+    gui.onSamplesPerPixelChange = (value: number) => renderSettings.samplesPerPixel = value;
+    gui.onMaxDepthChange = (value: number) => renderSettings.maxDepth = value;
 
     gui.onCanvasSizeChange(300);
 
@@ -51,10 +58,6 @@ class App {
       focusDistance: 10.0
     };
 
-    const renderSettings: RenderSettings = {
-      samplesPerPixel: 5,
-      maxDepth: 3
-    }
 
     gui.onRender = () => {
       const image: Image = new Image(canvas);

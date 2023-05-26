@@ -5,6 +5,8 @@ export class Gui {
   public onCanvasSizeChange!: (size: number) => void;
   public onWorkersNumberChange!: (size: number) => void;
   public onSingleWorkerSizeChange!: (size: number) => void;
+  public onSamplesPerPixelChange!: (value: number) => void;
+  public onMaxDepthChange!: (value: number) => void;
   public onRender!: () => void;
 
   constructor(defaultWorkerSize: number) {
@@ -22,6 +24,11 @@ export class Gui {
       const renderCanvas = document.querySelector<HTMLCanvasElement>('#renderCanvas')!;
       renderCanvas.style.backgroundSize = `${value}px ${value}px`;
     });
+
+    this.connectSlider('samplesPerPixelSlider', (value: number) => this.onSamplesPerPixelChange(value));
+
+    this.connectSlider('maxDepthSlider', (value: number) => this.onMaxDepthChange(value));
+
 
     const renderButton = document.querySelector<HTMLInputElement>('#renderButton')!;
     renderButton.addEventListener('click', (event: MouseEvent) => {
