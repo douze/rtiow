@@ -3,5 +3,6 @@ export default {
   esbuild: {
     minifyIdentifiers: false,
     keepNames: true
-  }
+  },
+  base: '/rtiow/'
 }
