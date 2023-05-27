@@ -9,6 +9,7 @@ export class Lambertian extends Material {
     super();
   }
 
+  //@ts-ignore
   public scatter(rayIn: Ray, record: HitRecord): Scattering {
     let scatterDirection = record.normal!.add(Vector.randomUnitInUnitSphere());
     if (scatterDirection.isNearZero()) {

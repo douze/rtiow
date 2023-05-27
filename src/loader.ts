@@ -12,6 +12,7 @@ export class Loader {
     if (hittableSettings.className == Sphere.name) {
       return Sphere.from(hittableSettings as SphereSettings);
     }
+    return undefined;
   }
 
   public static loadMaterial(materialSettings: MaterialSettings): Material {

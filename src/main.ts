@@ -1,12 +1,12 @@
-import '/src/style.css'
-import { Image, RenderSettings } from '../src/image';
-import { Vector } from '../src/vector';
-import { HittableList } from '../src/hittable-list';
 import { CameraSettings } from '../src/camera';
+import { HittableList } from '../src/hittable-list';
+import { Image, RenderSettings } from '../src/image';
 import { Metal } from '../src/metal';
+import { Vector } from '../src/vector';
+import '/src/style.css';
 
-import { Lambertian } from '../src/lambertian';
 import { Dielectric } from '../src/dielectric';
+import { Lambertian } from '../src/lambertian';
 import { Sphere } from '../src/sphere';
 
 import { Gui } from '../src/gui';
@@ -21,7 +21,6 @@ class App {
 
     const workerQueueSettings: WorkerQueueSettings = {
       queueSize: 4,
-      workerScript: './render-webworker.ts',
       workerSize: 100
     };
 
@@ -41,13 +40,8 @@ class App {
 
     gui.onCanvasSizeChange(300);
 
-    let world = this.createRandomScene();
-    world = new HittableList();
-    world.add(new Sphere(new Vector(0, 0, -1), 0.5, new Lambertian(new Vector(0, 1, 0))));
-    world.add(new Sphere(new Vector(0, -100.5, -1), 100));
-
-    world = this.createRandomScene();
-
+    const world = this.createRandomScene();
+    
     const cameraSettings: CameraSettings = {
       aspectRatio,
       verticalFieldOfView: 20.0,
@@ -69,7 +63,6 @@ class App {
 
   private setupCanvasSize(domCanvas: HTMLCanvasElement, width: number, aspectRatio: number): void {
     const height = width / aspectRatio;
-    console.log(`image = ${width} * ${height}`);
     domCanvas.width = width;
     domCanvas.height = height;
   }

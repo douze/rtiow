@@ -9,9 +9,9 @@ export class WorkerItem {
   private worker: Worker;
   private status: WorkerStatus;
 
-  constructor(index: number, script: string) {
+  constructor(index: number) {
     this.index = index;
-    this.worker = new Worker(new URL(script, import.meta.url), { type: 'module' });
+    this.worker = new Worker(new URL('./render-webworker.ts', import.meta.url), { type: 'module' });
     this.status = WorkerStatus.AVAILABLE;
   }
 
@@ -25,7 +25,6 @@ export class WorkerItem {
 
 export interface WorkerQueueSettings {
   queueSize: number,
-  workerScript: string,
   workerSize: number
 }
 
@@ -38,7 +37,7 @@ export class WorkerQueue {
 
   constructor(private workerQueueSettings: WorkerQueueSettings) {
     for (let i = 0; i < workerQueueSettings.queueSize; i++) {
-      this.workerItems[i] = new WorkerItem(i, workerQueueSettings.workerScript);
+      this.workerItems[i] = new WorkerItem(i);
     }
   }
 

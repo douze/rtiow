@@ -31,7 +31,7 @@ export class Gui {
 
 
     const renderButton = document.querySelector<HTMLInputElement>('#renderButton')!;
-    renderButton.addEventListener('click', (event: MouseEvent) => {
+    renderButton.addEventListener('click', () => {
       this.onRender();
     });
   }
