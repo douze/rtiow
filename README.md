@@ -9,4 +9,4 @@
 
 This project is mainly used because _aint no real graphics programmer if no rtiow_.
 
-![Preview](images/rtiow.png)
+![Preview](rtiow.png)
